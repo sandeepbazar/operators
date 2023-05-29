@@ -1,4 +1,4 @@
-# Step 1: Create Detailed Documentation about Kubernetes/OpenShift Operator
+# Step 1: Kubernetes/OpenShift Operator
 
 ## 1.1: What is an Operator?
 
