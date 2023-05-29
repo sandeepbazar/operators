@@ -379,6 +379,3 @@ make deploy IMG=<some-registry>/<project-name>:tag
 ```
 
 Don't forget to replace `<some-registry>/<project-name>:tag` with the path and tag of your image.
-
-
-![image](https://github.com/sandeepbazar/operators/assets/5602033/ed804e82-7954-4f92-804b-64b7677a1e38)
