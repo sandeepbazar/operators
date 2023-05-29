@@ -36,9 +36,7 @@ Operators consist of several components, including:
 - [Writing Operators with Python](https://opensource.com/article/20/3/kubernetes-python)
 - [Awesome Operators in Kubernetes](https://github.com/operator-framework/awesome-operators)
 
-(Note: due to the size of the task and limitations in the number of characters, the tutorial will be split into several parts. In the next part, I will guide you on how to create a sample telemetry microservice.)
-
-# Step 2: Create a Sample Telemetry Microservice to Read the Metrics from All CRs in a Particular Namespace
+# Step 2: Sample Telemetry Microservice to Read the Metrics from All CRs in a Particular Namespace
 
 Creating a telemetry service to read the metrics from all custom resources (CRs) in a namespace will involve several steps:
 
@@ -136,7 +134,7 @@ Please note that this is a simplified example and real-world applications should
 
 In the next step, we will create an Operator to manage this telemetry service.
 
-# Step 3: Create an Operator to Demonstrate All Parts Including Complete Lifecycle
+# Step 3: Operator to Demonstrate
 
 In this step, we'll use the Operator SDK to create a new Operator. The Operator SDK is a framework that simplifies the task of creating operators. It provides high-level APIs and abstractions to write the operational logic more intuitively. 
 
@@ -222,9 +220,7 @@ func (r *TelemetryServiceReconciler) SetupWithManager(mgr ctrl.Manager) error {
 }
 ```
 
-This is a
-
- simplified example, but the operator's actual logic will be placed in the `Reconcile` function, marked with the comment `// your logic here`.
+This is a simplified example, but the operator's actual logic will be placed in the `Reconcile` function, marked with the comment `// your logic here`.
 
 ## 3.6: Building and Pushing the Operator Image
 
