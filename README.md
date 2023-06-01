@@ -375,3 +375,47 @@ make deploy IMG=<some-registry>/<project-name>:tag
 ```
 
 Don't forget to replace `<some-registry>/<project-name>:tag` with the path and tag of your image.
+
+# Add a microservice to an existing operator
+
+To add a microservice to an existing operator, we will need to do the following steps:
+
+1. **Define a new CRD for the microservice**: As explained earlier, Custom Resource Definitions (CRDs) are used to create new types of resources that the Kubernetes API can handle. In the case of a new microservice, we'll want to create a new CRD to represent instances of this microservice.
+
+```bash
+operator-sdk create api --group=<group> --version=<version> --kind=<NewMicroserviceKind> --resource --controller
+```
+
+Replace `<group>`, `<version>`, and `<NewMicroserviceKind>` with appropriate values.
+
+2. **Implement the Spec and Status for the new CRD**: Go to `api/<version>/<kind>_types.go` and define the Spec and Status for your new custom resource. The Spec might include configuration settings specific to the microservice. The Status could report the number of running instances of the microservice, its current health, and other operational details.
+
+3. **Implement the Reconciler for the new CRD**: In the `controllers` package, you will find a new file named `<kind>_controller.go`. This is where you should implement the reconciliation loop for your new microservice. The reconciliation loop should read the spec of the microservice from the custom resource and ensure that the state of the cluster matches this spec.
+
+For instance, if the spec says that there should be three instances of the microservice running, but the reconciler only finds two, it should start a new one. If it finds four, it should stop one.
+
+4. **Update the RBAC permissions**: Depending on what your new microservice needs to do, you may need to update the RBAC permissions for your operator. The operator's permissions are defined in the `config/rbac/role.yaml` file.
+
+For instance, if your new microservice needs to read ConfigMaps, you will need to add a new rule to the operator's Role that allows this:
+
+```yaml
+- apiGroups:
+  - ""
+  resources:
+  - configmaps
+  verbs:
+  - get
+  - list
+  - watch
+```
+
+5. **Re-build and re-deploy your operator**: After you've made all the necessary changes, you'll need to re-build your operator's Docker image, push it to a registry, and update the operator deployment in your cluster.
+
+```bash
+make docker-build docker-push IMG=<some-registry>/<project-name>:tag
+make deploy IMG=<some-registry>/<project-name>:tag
+```
+
+Remember to replace `<some-registry>/<project-name>:tag` with the path and tag of your image.
+
+After following these steps, your operator should be able to manage instances of your new microservice in addition to whatever it was previously managing. Keep in mind that this is a simplified example, and your real-world operator may need additional or more complex logic depending on the nature of your microservices.
